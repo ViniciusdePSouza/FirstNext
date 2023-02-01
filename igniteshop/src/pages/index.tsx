@@ -8,7 +8,22 @@ import TShirt1 from '../assets/1.png'
 import TShirt2 from '../assets/2.png'
 import TShirt3 from '../assets/3.png'
 
-export default function Home() {
+import { stripe } from '../lib/stripe'
+
+import { GetServerSideProps } from 'next'
+
+import Stripe from 'stripe'
+
+interface HomeProps {
+    products: {
+        id: string
+        name: string
+        imgURL: string
+        price: number
+    }[]
+}
+
+export default function Home({ products }: HomeProps) {
     const [sliderRef] = useKeenSlider({
         slides: {
             perView: 3,
@@ -47,4 +62,26 @@ export default function Home() {
         </ProductShop>
     </HomeContainer>
  )
+}
+
+export const getServerSideProduct: GetServerSideProps = async () => {
+    const response = await stripe.products.list({
+        expand: ['data.default_price']
+    })
+
+    const products = response.data.map(product => {
+        const price = product.default_price as Stripe.Price
+        return {
+            id: product.id,
+            name: product.name,
+            imgURL: product.images[0],
+            price: price.unit_amount
+        }
+    })
+
+    return {
+        props: {
+            products
+        }
+    }
 }
