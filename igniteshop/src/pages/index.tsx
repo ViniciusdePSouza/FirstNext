@@ -1,4 +1,4 @@
-import { HomeContainer, ProductShop} from '../styles/pages/home'
+import { HomeContainer, ProductShop } from '../styles/pages/home'
 import Image from 'next/image'
 
 import { useKeenSlider } from 'keen-slider/react'
@@ -30,41 +30,26 @@ export default function Home({ products }: HomeProps) {
             spacing: 48
         }
     })
- return ( 
-    <HomeContainer ref={sliderRef} className='keen-slider'>
-        <ProductShop className='keen-slider__slide'>
-            <Image src={TShirt1} width={520} height={480} alt=''/>
-            <footer>
-                <strong>Camiseta X</strong>
-                <span>R$ 79,80</span>
-            </footer>
-        </ProductShop>
-        <ProductShop className='keen-slider__slide'>
-            <Image src={TShirt2} width={520} height={480} alt=''/>
-            <footer>
-                <strong>Camiseta X</strong>
-                <span>R$ 79,80</span>
-            </footer>
-        </ProductShop>
-        <ProductShop className='keen-slider__slide'>
-            <Image src={TShirt3} width={520} height={480} alt=''/>
-            <footer>
-                <strong>Camiseta X</strong>
-                <span>R$ 79,80</span>
-            </footer>
-        </ProductShop>
-        <ProductShop className='keen-slider__slide'>
-            <Image src={TShirt2} width={520} height={480} alt=''/>
-            <footer>
-                <strong>Camiseta X</strong>
-                <span>R$ 79,80</span>
-            </footer>
-        </ProductShop>
-    </HomeContainer>
- )
+    return (
+        <HomeContainer ref={sliderRef} className='keen-slider'>
+            {
+                products.map(product => {
+                    return (
+                        <ProductShop className='keen-slider__slide' key={product.id}>
+                            <Image src={product.imgURL} width={520} height={480} alt='' />
+                            <footer>
+                                <strong>{product.name}</strong>
+                                <span>R$ {product.price/100}</span>
+                            </footer>
+                        </ProductShop>
+                    )
+                })
+            }
+        </HomeContainer>
+    )
 }
 
-export const getServerSideProduct: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
     const response = await stripe.products.list({
         expand: ['data.default_price']
     })
