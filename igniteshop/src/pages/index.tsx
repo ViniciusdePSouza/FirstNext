@@ -9,13 +9,14 @@ import { stripe } from '../lib/stripe'
 import { GetStaticProps } from 'next'
 
 import Stripe from 'stripe'
+import Link from 'next/link'
 
 interface HomeProps {
     products: {
         id: string
         name: string
         imgURL: string
-        price: number
+        price: string
     }[]
 }
 
@@ -31,13 +32,15 @@ export default function Home({ products }: HomeProps) {
             {
                 products.map(product => {
                     return (
-                        <ProductShop className='keen-slider__slide' key={product.id}>
+                        <Link  key={product.id} href={`/product/${product.id}`}>
+                        <ProductShop className='keen-slider__slide'>
                             <Image src={product.imgURL} width={520} height={480} alt='' />
                             <footer>
                                 <strong>{product.name}</strong>
                                 <span>{product.price}</span>
                             </footer>
                         </ProductShop>
+                        </Link>
                     )
                 })
             }
