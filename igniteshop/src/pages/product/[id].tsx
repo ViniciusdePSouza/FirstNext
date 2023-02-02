@@ -17,10 +17,10 @@ interface ProductProps {
 }
 
 export default function DetailedProduct({ product }: ProductProps) {
-    const {isFallback} = useRouter()
+    const { isFallback } = useRouter()
 
-    if(isFallback) {
-        <h1>LOADING</h1>
+    if (isFallback) {
+        <h1>LOADING...</h1>
     }
 
     return (
@@ -41,11 +41,11 @@ export default function DetailedProduct({ product }: ProductProps) {
     )
 }
 
-export const getStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths  = async () => {
     return {
         paths: [
-            { params: { id: 'prod_NHH2ETiotxP4Uw' } },
-        ],
+            { params: { id: 'prod_NHH36ZdFks0aSL' } },
+        ], 
         fallback: true
     }
 }
