@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { stripe } from '../../lib/stripe'
 import Stripe from 'stripe'
 import { useRouter } from "next/router";
-import handler from "../api/checkout";
 import axios from "axios";
 import { useState } from "react";
 import Head from "next/head";
@@ -61,7 +60,7 @@ export default function DetailedProduct({ product }: ProductProps) {
 
                     <p>{product.description}</p>
 
-                    <button disabled={isCreatingCheckoutSession} onClick={handleBuyProduct}>Comprar Agora</button>
+                    <button disabled={isCreatingCheckoutSession} onClick={handleBuyProduct}>Inserir na sacola</button>
                 </ProductDetails>
             </ProductContainer>
         </>

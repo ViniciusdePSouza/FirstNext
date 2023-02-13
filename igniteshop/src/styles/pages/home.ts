@@ -8,6 +8,24 @@ export const HomeContainer = styled('main', {
     marginLeft: 'auto',
 })
 
+export const ProductInfo = styled('div', {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 4
+})
+
+export const BagButton = styled('button', {
+    backgroundColor: '$green300',
+    padding: '.8rem',
+    borderRadius: 6,
+    border: 0,
+    cursor: 'pointer',
+
+    svg: {
+        color: '#fff'
+    }
+})
+
 export const ProductShop = styled('div', {
     background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
     borderRadius: 8,

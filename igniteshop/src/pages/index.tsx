@@ -1,4 +1,4 @@
-import { HomeContainer, ProductShop } from '../styles/pages/home'
+import { BagButton, HomeContainer, ProductInfo, ProductShop } from '../styles/pages/home'
 import Image from 'next/image'
 
 import { useKeenSlider } from 'keen-slider/react'
@@ -11,6 +11,11 @@ import { GetStaticProps } from 'next'
 import Stripe from 'stripe'
 import Link from 'next/link'
 import Head from 'next/head'
+
+import BagIcon from '../assets/bagIcon.svg'
+
+import { useRecoilState } from 'recoil'
+import { cartState } from 'atoms/cartState'
 
 interface HomeProps {
     products: {
@@ -28,6 +33,7 @@ export default function Home({ products }: HomeProps) {
             spacing: 48
         }
     })
+
     return (
         <>
             <Head>
@@ -42,8 +48,14 @@ export default function Home({ products }: HomeProps) {
                                 <ProductShop className='keen-slider__slide'>
                                     <Image src={product.imgURL} width={520} height={480} alt='' />
                                     <footer>
-                                        <strong>{product.name}</strong>
-                                        <span>{product.price}</span>
+                                        <ProductInfo>
+                                            <strong>{product.name}</strong>
+                                            <span>{product.price}</span>
+                                        </ProductInfo>
+
+                                        <BagButton>
+                                            <Image src={BagIcon} width={24} height={24} alt="" />
+                                        </BagButton>
                                     </footer>
                                 </ProductShop>
                             </Link>
