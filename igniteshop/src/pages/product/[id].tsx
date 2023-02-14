@@ -83,7 +83,6 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({ para
         expand: ['default_price']
     })
 
-
     const price = product.default_price as Stripe.Price
 
     return {

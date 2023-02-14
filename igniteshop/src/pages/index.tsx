@@ -8,14 +8,14 @@ import { stripe } from '../lib/stripe'
 
 import { GetStaticProps } from 'next'
 
+import { useContext } from "react";
+
 import Stripe from 'stripe'
 import Link from 'next/link'
 import Head from 'next/head'
 
 import BagIcon from '../assets/bagIcon.svg'
-
-import { useRecoilState } from 'recoil'
-import { cartState } from 'atoms/cartState'
+import { CartContext, Product } from '@/context/CartContext'
 
 interface HomeProps {
     products: {
@@ -26,6 +26,13 @@ interface HomeProps {
     }[]
 }
 
+interface NewProductProps {
+    id: string
+    name: string
+    imgURL: string
+    price: string
+}
+
 export default function Home({ products }: HomeProps) {
     const [sliderRef] = useKeenSlider({
         slides: {
@@ -33,6 +40,15 @@ export default function Home({ products }: HomeProps) {
             spacing: 48
         }
     })
+
+    const { setCartItemsMOCK } = useContext(CartContext)
+
+    function callSetCartItemsMock({id , name, price, imgURL}: Product ) {
+        const NewProduct = {
+            id, name, price, imgURL
+        }
+        setCartItemsMOCK(NewProduct)
+    }
 
     return (
         <>
@@ -42,25 +58,23 @@ export default function Home({ products }: HomeProps) {
 
             <HomeContainer ref={sliderRef} className='keen-slider'>
                 {
-                    products.map(product => {
-                        return (
-                            <Link key={product.id} href={`/product/${product.id}`} prefetch={false}>
-                                <ProductShop className='keen-slider__slide'>
-                                    <Image src={product.imgURL} width={520} height={480} alt='' />
-                                    <footer>
-                                        <ProductInfo>
-                                            <strong>{product.name}</strong>
-                                            <span>{product.price}</span>
-                                        </ProductInfo>
+                    products.map(product => (
+                        <Link key={product.id} href={`/product/${product.id}`} prefetch={false}>
+                            <ProductShop className='keen-slider__slide'>
+                                <Image src={product.imgURL} width={520} height={480} alt='' />
+                                <footer>
+                                    <ProductInfo>
+                                        <strong>{product.name}</strong>
+                                        <span>{product.price}</span>
+                                    </ProductInfo>
 
-                                        <BagButton>
-                                            <Image src={BagIcon} width={24} height={24} alt="" />
-                                        </BagButton>
-                                    </footer>
-                                </ProductShop>
-                            </Link>
-                        )
-                    })
+                                    <BagButton onClick={() => callSetCartItemsMock({ id: product.id, name: product.name, price: product.price, imgURL: product.imgURL })}>
+                                        <Image src={BagIcon} width={24} height={24} alt=""/>
+                                    </BagButton>
+                                </footer>
+                            </ProductShop>
+                        </Link>
+                    ))
                 }
             </HomeContainer>
         </>

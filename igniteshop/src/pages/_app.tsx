@@ -7,19 +7,29 @@ import bagIcon from '../assets/bagIcon.svg'
 import logo from '../assets/logo.svg'
 import closeIcon from '../assets/closeIcon.svg'
 
-import { CartProvider } from "react-use-cart"
+import { CartProvider } from "use-shopping-cart"
 import BagItem from "@/components/item"
 import { useState } from "react"
 globalStyles()
 export default function App({ Component, pageProps }: AppProps) {
     const [showCart, setShowCart] = useState(false)
 
-    function handleShowCart(){
+    function handleShowCart() {
         setShowCart(state => state = !state)
     }
 
     return (
-        <CartProvider>
+        <CartProvider
+        shouldPersist={false}
+        mode="payment"
+        cartMode="client-only"
+        stripe={process.env.STRIPE_SECRET_KEY!}
+        successUrl="http://localhost:3000/success"
+        cancelUrl="http://localhost:3000/"
+        currency="BRL"
+        allowedCountries={['US', 'BR', 'CA']}
+        billingAddressCollection={true}
+        >
             <Container>
                 <Header>
                     <Image src={logo} alt="" />
